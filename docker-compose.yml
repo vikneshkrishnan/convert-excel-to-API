@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+
+  amazon-mongo:
+    image: mongo
+    ports:
+      - '27018:27018'
+    volumes:
+      - gc-mongo-data:/data/db
+
+
+  amazon-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - amazon-mongo
+
+    ports:
+      - '3000:3000'
+
+
+
+volumes:
+  gc-mongo-data:
